@@ -1,3 +1,29 @@
 plugins {
 	id "java"
+	id "maven"
+}
+
+group="com.linkedin.sample"
+version="0.0.2"
+
+uploadArchives {
+    repositories {
+		mavenDeployer {
+			/**
+			IMPORTANT
+			Only 1 repository is enabled for deployment.
+			To publish to JFrog Artifactory, please comment out repo 2
+			*/
+
+			//repo 1
+			repository(url: "https://linkedin.jfrog.io/linkedin/test-repo") {
+            	authentication(userName: System.getenv("MVN_DEPLOY_USER"), password: System.getenv("MVN_DEPLOY_KEY"))
+			}		
+
+			//repo 2	
+			repository(url: "https://api.bintray.com/maven/linkedin/test-repo/gradle-mavenDeployer-example/;publish=1") {
+            	authentication(userName: System.getenv("BINTRAY_USER"), password: System.getenv("BINTRAY_API_KEY"))
+			}
+        }
+    }
 }
